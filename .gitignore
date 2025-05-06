@@ -1,0 +1,25 @@
+# Build directories
+/build/
+/CMakeFiles/
+*.cmake
+CMakeCache.txt
+
+# Binary and libraries
+*.o
+*.so
+*.a
+RegressionDemo
+
+# Test artifacts
+/tests/*.o
+/tests/*.exe
+/tests/*.log
+
+# Editor/IDE
+.vscode/
+*.swp
+*~
+.DS_Store
+
+# Data
+/data/*.csv
