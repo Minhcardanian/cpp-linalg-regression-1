@@ -1,0 +1,101 @@
+# GitLab CI/CD configuration for cpp_linalg_regression
+
+variables:
+  BUILD_DIR: "build"
+  CMAKE_BUILD_TYPE: "${CMAKE_BUILD_TYPE:-Debug}"
+
+stages:
+  - lint
+  - build
+  - test
+  - coverage
+  - deploy
+  - security
+
+# Lint stage: treat warnings as errors
+lint:
+  stage: lint
+  image: gcc:latest
+  script:
+    - mkdir -p $BUILD_DIR && cd $BUILD_DIR
+    - cmake .. -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE
+    - cmake --build . --target lint
+  artifacts:
+    when: always
+    paths:
+      - $BUILD_DIR/CMakeFiles/
+  tags:
+    - cpp
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+
+# Build stage: Release build
+build:
+  stage: build
+  image: gcc:latest
+  script:
+    - mkdir -p $BUILD_DIR && cd $BUILD_DIR
+    - cmake .. -DCMAKE_BUILD_TYPE=Release
+    - cmake --build . --parallel
+  artifacts:
+    paths:
+      - $BUILD_DIR/liblinalg.a
+      - $BUILD_DIR/RegressionDemo
+  tags:
+    - cpp
+
+# Test stage: run unit tests
+test:
+  stage: test
+  image: gcc:latest
+  script:
+    - cd $BUILD_DIR
+    - ctest --output-on-failure --parallel
+  dependencies:
+    - build
+  artifacts:
+    when: on_failure
+    reports:
+      junit: $BUILD_DIR/junit-report.xml
+  tags:
+    - cpp
+
+# Coverage stage: generate coverage report
+coverage:
+  stage: coverage
+  image: gcc:latest
+  script:
+    - cd $BUILD_DIR
+    - make coverage
+  artifacts:
+    paths:
+      - $BUILD_DIR/coverage-report/
+    reports:
+      cobertura: $BUILD_DIR/coverage-report/coverage.xml
+  tags:
+    - cpp
+
+# Deploy stage: install artifacts
+deploy:
+  stage: deploy
+  image: gcc:latest
+  script:
+    - cd $BUILD_DIR
+    - cmake --install . --prefix install/
+  artifacts:
+    paths:
+      - install/
+  when: manual
+  tags:
+    - cpp
+
+# Security stage: SAST scan
+security:
+  stage: security
+  image: docker:stable
+  services:
+    - docker:dind
+  script:
+    - docker run --rm --entrypoint "/analyzer" registry.gitlab.com/gitlab-org/security-products/sast:latest
+  tags:
+    - cpp
