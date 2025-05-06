@@ -33,24 +33,31 @@ A C++17 library implementing dense linear-algebra primitives and solvers, plus a
 
 ## Architecture
 
-This project is structured for modular development, testing, and CI/CD delivery:
+This project is structured for modular development, testing, and CI/CD delivery. Below is the core architecture rendered using Mermaid:
 
 ```mermaid
 flowchart LR
     subgraph Library
-        V["Vector Module\n(include/Vector.hpp, src/Vector.cpp)"]
-        M["Matrix Module\n(include/Matrix.hpp, src/Matrix.cpp)"]
-        S["System Module\n(include/LinearSystem.hpp, src/LinearSystem.cpp)"]
+        V["Vector Module
+(include/Vector.hpp, src/Vector.cpp)"]
+        M["Matrix Module
+(include/Matrix.hpp, src/Matrix.cpp)"]
+        S["System Module
+(include/LinearSystem.hpp, src/LinearSystem.cpp)"]
     end
     subgraph Demo
-        D["Regression Demo\n(src/RegressionDemo.cpp)"]
+        D["Regression Demo
+(src/RegressionDemo.cpp)"]
     end
     subgraph Data
-        DD["Dataset\n(data/machine.data)"]
+        DD["Dataset
+(data/machine.data)"]
     end
     subgraph CI/CD
-        C["Pipeline\n(.gitlab-ci.yml)"]
-        T["Tests\n(tests/)"]
+        C["Pipeline
+(.gitlab-ci.yml)"]
+        T["Tests
+(tests/)"]
     end
 
     V --> M --> S --> D
@@ -59,11 +66,6 @@ flowchart LR
     Demo -.-> C
     T -.-> C
 ```
-
-- **Library**: Core numerical types and algorithms (Vector, Matrix, LinearSystem).  
-- **Demo**: Command-line regression application leveraging the library.  
-- **Data**: Raw UCI dataset for CPU performance.  
-- **CI/CD**: Automated lint, build, test, coverage, and deploy stages, integrating tests and security scans.
 
 ---
 
