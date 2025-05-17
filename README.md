@@ -6,28 +6,38 @@ A C++17 library implementing dense linear-algebra primitives and solvers, plus a
 
 ## Features
 
-- **Vector & Matrix**  
-  - Heap-managed storage, deep-copy semantics  
-  - Bounds-checked `operator[]` and 1-based `operator()`  
-  - Unary (`+`, `-`) and binary (`+`, `-`, `*`) operators  
+* **Vector & Matrix**
 
-- **Advanced Matrix Ops**  
-  - `determinant()`, `inverse()` for square matrices  
-  - `pseudoInverse()` (Moore–Penrose) for arbitrary matrices  
-  - Tikhonov regularization for non-square systems  
+  * Heap-managed storage, deep-copy semantics
+  * Bounds-checked `operator[]` and 1-based `operator()`
+  * Unary (`+`, `-`) and binary (`+`, `-`, `*`) operators
 
-- **Linear System Solvers**  
-  - `LinearSystem` (Gaussian elimination + pivoting)  
-  - `PosSymLinSystem` (Conjugate Gradient for symmetric systems)  
+* **Advanced Matrix Ops**
 
-- **Regression Demo**  
-  - Six-feature linear model (`PRP` vs. `MYCT`, `MMIN`, `MMAX`, `CACH`, `CHMIN`, `CHMAX`)  
-  - Train/test split with RMSE reporting  
+  * `determinant()`, `inverse()` for square matrices
+  * `pseudoInverse()` (Moore–Penrose) for arbitrary matrices
+  * Tikhonov regularization for non-square systems
 
-- **Quality & Automation**  
-  - Unit tests (Catch2) with ≥ 90% coverage  
-  - Static analysis (`-Wall -Wextra -Werror`)  
-  - GitLab CI pipeline: lint → build → test → coverage → deploy  
+* **Linear System Solvers**
+
+  * `LinearSystem` (Gaussian elimination + pivoting)
+  * `PosSymLinSystem` (Conjugate Gradient for symmetric systems)
+
+* **Regression Demo**
+
+  * Six-feature linear model (`PRP` vs. `MYCT`, `MMIN`, `MMAX`, `CACH`, `CHMIN`, `CHMAX`)
+  * Train/test split with RMSE reporting
+
+* **Automation & Logging**
+
+  * CMake targets: `run_tests`, `run_demo`, `run_all` for building, testing, and capturing logs
+  * Helper script under `scripts/run_project.sh` for one-step execution and log collection
+
+* **Quality & CI/CD**
+
+  * Unit tests (Catch2) with ≥ 90% coverage
+  * Static analysis (`-Wall -Wextra -Werror`)
+  * GitLab CI pipeline: lint → build → test → coverage → deploy
 
 ---
 
@@ -38,26 +48,19 @@ This project is structured for modular development, testing, and CI/CD delivery.
 ```mermaid
 flowchart LR
     subgraph Library
-        V["Vector Module
-(include/Vector.hpp, src/Vector.cpp)"]
-        M["Matrix Module
-(include/Matrix.hpp, src/Matrix.cpp)"]
-        S["System Module
-(include/LinearSystem.hpp, src/LinearSystem.cpp)"]
+        V["Vector Module\n(include/Vector.hpp, src/Vector.cpp)"]
+        M["Matrix Module\n(include/Matrix.hpp, src/Matrix.cpp)"]
+        S["System Module\n(include/LinearSystem.hpp, src/LinearSystem.cpp)"]
     end
     subgraph Demo
-        D["Regression Demo
-(src/RegressionDemo.cpp)"]
+        D["Regression Demo\n(src/RegressionDemo.cpp)"]
     end
     subgraph Data
-        DD["Dataset
-(data/machine.data)"]
+        DD["Dataset\n(data/machine.data)"]
     end
     subgraph CI/CD
-        C["Pipeline
-(.gitlab-ci.yml)"]
-        T["Tests
-(tests/)"]
+        C["Pipeline\n(.gitlab-ci.yml)"]
+        T["Tests & Logs\n(run_all)"]
     end
 
     V --> M --> S --> D
@@ -73,44 +76,51 @@ flowchart LR
 
 ```
 /
-├── CMakeLists.txt            # Build configuration
-├── include/                 # Public headers
+├── CMakeLists.txt            # Build configuration, custom run targets
+├── include/                  # Public headers
 │   ├── Vector.hpp
 │   ├── Matrix.hpp
 │   └── LinearSystem.hpp
 │
-├── src/                     # Implementation
+├── src/                      # Implementations
 │   ├── Vector.cpp
 │   ├── Matrix.cpp
 │   ├── LinearSystem.cpp
 │   └── RegressionDemo.cpp
 │
-├── tests/                   # Unit tests (Catch2)
+├── tests/                    # Unit tests (Catch2)
 │   ├── CMakeLists.txt
-│   └── *.cpp
+│   ├── test_vector.cpp
+│   ├── test_matrix.cpp
+│   ├── test_system.cpp
+│   ├── test_data.cpp
+│   └── test_regression.cpp
 │
-├── data/                    # Sample datasets
+├── data/                     # Sample datasets
 │   └── machine.data
 │
-├── .gitlab-ci.yml           # CI/CD pipeline definition
-└── README.md                # Project documentation
+├── scripts/                  # Helper scripts
+│   └── run_project.sh        # Build, test, demo, log
+│
+├── .gitlab-ci.yml            # CI/CD pipeline definition
+└── README.md                 # Project documentation
 ```
 
 ---
 
 ## Prerequisites
 
-- **Compiler**: GCC 9+ or Clang 10+, with C++17 support  
-- **CMake**: 3.12+  
-- **Catch2**: integrated via FetchContent in CMake  
-- **GitLab Runner** (for CI)  
+* **Compiler**: GCC 9+ or Clang 10+, with C++17 support
+* **CMake**: 3.12+
+* **Catch2**: integrated via FetchContent in CMake
+* **GitLab Runner** (for CI) or **GitHub Actions** as alternative
 
 ---
 
 ## Build & Install
 
 ```bash
-git clone https://gitlab.com/your-group/cpp-linalg-regression.git
+git clone git@github.com:Minhcardanian/cpp-linalg-regression.git
 cd cpp-linalg-regression
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
@@ -120,58 +130,58 @@ cmake --install .
 
 ---
 
-## Tests & Coverage
+## Running Tests & Demo
+
+### Using CMake Targets
 
 ```bash
-# Run tests
-ctest --output-on-failure
+# Build and run all tests and demo, capture logs
+cd build
+cmake --build . --target run_all
 
-# Coverage (requires lcov & genhtml)
-make coverage
-# Open coverage/index.html
+# Logs are generated in:
+build/logs/tests.log
+build/logs/regression.log
 ```
 
----
-
-## Regression Demo
+### Using Script
 
 ```bash
-./RegressionDemo \
-  --data ../data/machine.data \
-  --train-split 0.8 \
-  --seed 42
+# From project root
+chmod +x scripts/run_project.sh
+./scripts/run_project.sh
 ```
-
-**Output:**  
-- Coefficients `x_1 … x_6`  
-- Train RMSE, Test RMSE  
 
 ---
 
 ## CI/CD Overview
 
-- **Stages:**  
-  1. **Lint** (`-Wall -Wextra -Werror`)  
-  2. **Build** (Debug & Release)  
-  3. **Test** (`ctest --parallel`)  
-  4. **Coverage** (≥ 90% threshold)  
-  5. **Deploy** (publish artifacts)  
-  6. **Security** (SAST & dependency scans)  
+* **Stages:**
 
-- **Triggers:** on push and merge requests  
-- **Protected branches:** `main`, `dev` require passing pipelines & approval  
-- **Badges:** build status & coverage in README  
-- **Retention:** keep last 5 successful artifacts  
+  1. **Lint** (`-Wall -Wextra -Werror`)
+  2. **Build** (Debug & Release)
+  3. **Test** (`ctest --parallel`)
+  4. **Coverage** (≥ 90% threshold)
+  5. **Deploy** (publish artifacts)
+  6. **Security** (SAST & dependency scans)
+
+* **Triggers:** on push and merge requests
+
+* **Protected branches:** `main`, `dev` require passing pipelines & approval
+
+* **Badges:** build status & coverage in README
+
+* **Retention:** keep last 5 successful artifacts
 
 ---
 
 ## Contributing
 
-1. Fork & clone  
-2. Create branch (`feature/…`)  
-3. Commit with clear messages  
-4. Open MR against `dev`  
-5. Pass all CI checks  
+1. Fork & clone
+2. Create branch (`feature/…`)
+3. Commit with clear messages
+4. Open MR against `dev`
+5. Pass all CI checks
 
 ---
 
