@@ -1,5 +1,7 @@
+// src/Vector.cpp
 #include "Vector.hpp"
 #include <algorithm>
+#include <stdexcept>
 
 Vector::Vector(std::size_t size)
     : mSize(size),
@@ -41,7 +43,8 @@ Vector Vector::operator-() const {
 }
 
 Vector Vector::operator+(const Vector& rhs) const {
-    if (rhs.mSize != mSize) throw std::length_error("Vector size mismatch");
+    if (rhs.mSize != mSize)
+        throw std::length_error("Vector size mismatch in addition");
     Vector out(mSize);
     for (std::size_t i = 0; i < mSize; ++i)
         out.mData[i] = mData[i] + rhs.mData[i];
@@ -56,12 +59,14 @@ Vector Vector::operator*(double scalar) const {
 }
 
 double& Vector::operator[](std::size_t idx) {
-    if (idx >= mSize) throw std::out_of_range("Vector index out of range");
+    if (idx >= mSize)
+        throw std::out_of_range("Vector index out of range");
     return mData[idx];
 }
 
 double& Vector::operator()(std::size_t idx) {
-    if (idx == 0 || idx > mSize) throw std::out_of_range("Vector 1-based index out of range");
+    if (idx == 0 || idx > mSize)
+        throw std::out_of_range("Vector 1-based index out of range");
     return mData[idx - 1];
 }
 
