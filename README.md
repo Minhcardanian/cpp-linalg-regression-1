@@ -1,9 +1,38 @@
 # cpp-linalg-regression
 
 A C++17 library implementing dense linear-algebra primitives and solvers, plus a CPU-performance regression demo using the UCI “Computer Hardware” dataset.
-
 ---
+### Output:
+```bash
+# Run all Task A tests
+./unit_tests "Vector*,Matrix*,Gaussian*,Conjugate*"
+markdown
+Copy
+Edit
+Filters: Vector*, Matrix*, Gaussian*, Conjugate*
+===============================================================================
+All tests passed (37 assertions in 8 test cases)
+---
+# Run regression demo
+./RegressionDemo --data ../data/machine.data --train-split 0.8 --seed 42
+scss
+Copy
+Edit
+RegressionDemo v1.0
+Loaded 209 samples (167 train / 42 test)
 
+Coefficients (x1..x7):
+  x1 = -0.031743
+  x2 =  0.014001
+  x3 =  0.005004
+  x4 =  0.399885
+  x5 = -0.669655
+  x6 =  1.197054
+  x7 = -0.658987
+
+Train RMSE: 60.508298
+Test  RMSE: 44.209718
+---
 ## Features
 
 * **Vector & Matrix**
