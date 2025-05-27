@@ -7,17 +7,12 @@ A C++17 library implementing dense linear-algebra primitives and solvers, plus a
 # Run all Task A tests
 ./unit_tests "Vector*,Matrix*,Gaussian*,Conjugate*"
 markdown
-Copy
-Edit
 Filters: Vector*, Matrix*, Gaussian*, Conjugate*
 ===============================================================================
 All tests passed (37 assertions in 8 test cases)
 ---
 # Run regression demo
 ./RegressionDemo --data ../data/machine.data --train-split 0.8 --seed 42
-scss
-Copy
-Edit
 RegressionDemo v1.0
 Loaded 209 samples (167 train / 42 test)
 
