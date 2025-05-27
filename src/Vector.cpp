@@ -59,14 +59,22 @@ Vector Vector::operator*(double scalar) const {
 }
 
 double& Vector::operator[](std::size_t idx) {
-    if (idx >= mSize)
-        throw std::out_of_range("Vector index out of range");
+    if (idx >= mSize) throw std::out_of_range("Vector index out of range");
+    return mData[idx];
+}
+
+const double& Vector::operator[](std::size_t idx) const {
+    if (idx >= mSize) throw std::out_of_range("Vector index out of range");
     return mData[idx];
 }
 
 double& Vector::operator()(std::size_t idx) {
-    if (idx == 0 || idx > mSize)
-        throw std::out_of_range("Vector 1-based index out of range");
+    if (idx == 0 || idx > mSize) throw std::out_of_range("Vector 1-based index out of range");
+    return mData[idx - 1];
+}
+
+const double& Vector::operator()(std::size_t idx) const {
+    if (idx == 0 || idx > mSize) throw std::out_of_range("Vector 1-based index out of range");
     return mData[idx - 1];
 }
 

@@ -1,3 +1,4 @@
+// include/Vector.hpp
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
@@ -5,35 +6,38 @@
 #include <stdexcept>
 
 /**
- * @brief Dynamic 1-D vector with heap storage.
+ * @brief Simple dynamic vector class with heap-managed storage.
  */
 class Vector {
 public:
-    /** Allocate a size-length zeroed vector. */
+    /** Construct a vector of given size, initialized to zero. */
     explicit Vector(std::size_t size);
-    /** Deep-copy constructor. */
+    /** Copy constructor. */
     Vector(const Vector& other);
-    /** Free heap storage. */
+    /** Destructor. */
     ~Vector();
 
-    /** Copy-assign. */
+    /** Assignment operator. */
     Vector& operator=(const Vector& other);
 
-    /** Unary +. */
-    Vector operator+() const;
-    /** Unary –. */
-    Vector operator-() const;
-    /** Element-wise addition. */
-    Vector operator+(const Vector& rhs) const;
-    /** Scalar multiply. */
-    Vector operator*(double scalar) const;
+    /** Unary plus. */
+    Vector  operator+() const;
+    /** Unary minus. */
+    Vector  operator-() const;
+    /** Vector addition. */
+    Vector  operator+(const Vector& rhs) const;
+    /** Scalar multiplication. */
+    Vector  operator*(double scalar) const;
 
-    /** 0-based bounds-checked access. */
-    double& operator[](std::size_t idx);
-    /** 1-based bounds-checked access. */
-    double& operator()(std::size_t idx);
+    /** 0-based index with bounds check. */
+    double&       operator[](std::size_t idx);
+    const double& operator[](std::size_t idx) const;
 
-    /** Number of elements. */
+    /** 1-based index with bounds check. */
+    double&       operator()(std::size_t idx);
+    const double& operator()(std::size_t idx) const;
+
+    /** Return the size of the vector. */
     std::size_t size() const noexcept;
 
 private:
