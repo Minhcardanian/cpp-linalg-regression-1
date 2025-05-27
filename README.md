@@ -6,8 +6,6 @@ A C++17 library implementing dense linear-algebra primitives and solvers, plus a
 ```bash
 # Run all Task A tests
 ./unit_tests "Vector*,Matrix*,Gaussian*,Conjugate*"
-markdown
-Filters: Vector*, Matrix*, Gaussian*, Conjugate*
 ===============================================================================
 All tests passed (37 assertions in 8 test cases)
 ---
