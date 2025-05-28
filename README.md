@@ -1,7 +1,6 @@
-# cpp-linalg-regression
-
-A C++17 library implementing dense linear-algebra primitives and solvers, plus a CPU-performance regression demo using the UCI “Computer Hardware” dataset.
+##  C++ Linear Algebra Regression Library
 ---
+Read full report here: https://www.overleaf.com/read/cdxsgxjjkyrs#0a79a2. Description: a C++17 library implementing dense linear-algebra primitives and solvers, plus a CPU-performance regression demo using the UCI “Computer Hardware” dataset.
 ### Output:
 ```bash
 # Run all Task A tests
