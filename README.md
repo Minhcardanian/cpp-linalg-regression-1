@@ -174,7 +174,19 @@ build/logs/regression.log
 chmod +x scripts/run_project.sh
 ./scripts/run_project.sh
 ```
+```bash
+# 2. Configure the build
+cmake .. -DCMAKE_BUILD_TYPE=Release
 
+# 3. Compile all targets in parallel
+cmake --build . --parallel
+
+# 4. Run the full test suite
+ctest --output-on-failure
+
+# 5. (Optional) Run only Task A unit tests
+./unit_tests "Vector*,Matrix*,Gaussian*,Conjugate*
+```
 ---
 
 ## CI/CD Overview
