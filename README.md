@@ -186,6 +186,9 @@ ctest --output-on-failure
 
 # 5. (Optional) Run only Task A unit tests
 ./unit_tests "Vector*,Matrix*,Gaussian*,Conjugate*
+
+# 6. Run task B
+./RegressionDemo --data ../data/machine.data --train-split 0.8 --seed 42
 ```
 ---
 
