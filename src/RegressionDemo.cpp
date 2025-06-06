@@ -66,10 +66,10 @@ int main(int argc, char* argv[]) {
             x[j] = std::stod(field);
         }
 
-        // Skip one column (ERP) and read PRP
-        std::getline(ss, field, ',');
-        std::getline(ss, field, ',');
+        // Read PRP value and ignore final ERP column
+        std::getline(ss, field, ',');␊
         double prp = std::stod(field);
+        std::getline(ss, field, ','); // ERP (unused)
 
         features.push_back(x);
         targets.push_back(prp);
