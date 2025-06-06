@@ -1,6 +1,21 @@
 ##  C++ Linear Algebra Regression Library
 ---
-Read full report here: https://www.overleaf.com/read/cdxsgxjjkyrs#0a79a2. Description: a C++17 library implementing dense linear-algebra primitives and solvers, plus a CPU-performance regression demo using the UCI “Computer Hardware” dataset.
+Read full report here: https://www.overleaf.com/read/cdxsgxjjkyrs#0a79a2. 
+---
+### Description: 
+A C++17 library implementing dense linear-algebra primitives and solvers, plus a CPU-performance regression demo using the UCI “Computer Hardware” dataset.
+## Accuracy Strengths
+
+- Excellent reproducibility via fixed seeds.
+- Comprehensive unit tests to catch any drift in solver correctness.
+- Custom Tikhonov regularization to mitigate ill-conditioning.
+
+## Accuracy Caveats
+
+- Reliance on normal-equation elimination can amplify rounding errors for nearly collinear features.
+- No built-in feature scaling or residual-based iterative refinement.
+- Hand-rolled routines must be vigilantly tested against extreme edge cases (e.g., Hilbert, Vandermonde matrices).
+---
 ### Output:
 ```bash
 # Run all Task A tests
