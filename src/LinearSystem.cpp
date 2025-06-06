@@ -4,10 +4,15 @@
 #include <stdexcept>
 #include <algorithm>
 
-// Constructor: copy A and b
+// Constructor: copy A and b with dimension checks
 LinearSystem::LinearSystem(const Matrix& A, const Vector& b)
     : mSize(b.size()), mA(A), mb(b)
-{}
+{
+    if (A.rows() != A.cols())
+        throw std::invalid_argument("Matrix A must be square");
+    if (A.rows() != b.size())
+        throw std::invalid_argument("Size mismatch between A and b");
+}
 
 LinearSystem::~LinearSystem() = default;
 
