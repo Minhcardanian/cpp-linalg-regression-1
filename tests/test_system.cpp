@@ -24,3 +24,15 @@ TEST_CASE("Conjugate Gradient solves symmetric system", "[PosSymLinSystem]") {
     REQUIRE( x[0] == Approx(1.0).margin(1e-6) );
     REQUIRE( x[1] == Approx(2.0).margin(1e-6) );
 }
+
+TEST_CASE("LinearSystem throws on non-square matrix", "[LinearSystem]") {
+    Matrix A(2,3);
+    Vector b(2);
+    REQUIRE_THROWS_AS( LinearSystem(A,b), std::invalid_argument );
+}
+
+TEST_CASE("LinearSystem throws on dimension mismatch", "[LinearSystem]") {
+    Matrix A(2,2);
+    Vector b(3);
+    REQUIRE_THROWS_AS( LinearSystem(A,b), std::invalid_argument );
+}
