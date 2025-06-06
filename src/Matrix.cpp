@@ -26,6 +26,16 @@ Matrix::~Matrix() {
     delete[] mData;
 }
 
+Matrix& Matrix::operator=(const Matrix& other) {
+    if (this != &other) {
+        Matrix tmp(other);
+        std::swap(mRows, tmp.mRows);
+        std::swap(mCols, tmp.mCols);
+        std::swap(mData, tmp.mData);
+    }
+    return *this;
+}
+
 double& Matrix::operator()(std::size_t i, std::size_t j) {
     if (i == 0 || i > mRows || j == 0 || j > mCols)
         throw std::out_of_range("Matrix 1-based index out of range");
