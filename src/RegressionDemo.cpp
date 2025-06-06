@@ -7,6 +7,7 @@
 #include <random>
 #include <algorithm>    // for std::shuffle
 #include <iomanip>
+#include <cmath>
 #include "Matrix.hpp"
 #include "Vector.hpp"
 #include "LinearSystem.hpp"
