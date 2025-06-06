@@ -13,6 +13,8 @@ public:
     Matrix(std::size_t rows, std::size_t cols);
     /** Deep-copy constructor. */
     Matrix(const Matrix& other);
+    /** Copy assignment. */
+    Matrix& operator=(const Matrix& other);
     /** Free heap storage. */
     ~Matrix();
 
