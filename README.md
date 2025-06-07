@@ -1,6 +1,6 @@
-### Feature Normalization in Regression Demo
+### Feature Normalization Add-on to Regression Demo
 
-In this regression demo using the UCI "Computer Hardware" dataset, we implemented **z-score normalization** on input features before training the model. Feature normalization is a common preprocessing step in regression and other machine learning tasks that helps improve convergence and stability of the solver by scaling input data to have a mean of 0 and a standard deviation of 1.
+For this optimization on the regression demo, I implemented **z-score normalization** on input features before training the model. It helps improve convergence and stability of the solver by scaling input data to have a mean of 0 and a standard deviation of 1.
 
 #### How Normalization is Done
 
@@ -18,7 +18,7 @@ In this regression demo using the UCI "Computer Hardware" dataset, we implemente
 
 #### Impact of Normalization on Model Performance
 
-We compared model training and testing results with and without normalization using the same random seed (`--seed 42`) for reproducibility:
+I compared model training and testing results with and without normalization using the same random seed (`--seed 42`) for reproducibility:
 
 | Metric                 | Before Normalization | After Normalization  |
 |------------------------|---------------------:|--------------------:|
