@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
         }
 
         // Read PRP value and ignore final ERP column
-        std::getline(ss, field, ',');␊
+        std::getline(ss, field, ',');
         double prp = std::stod(field);
         std::getline(ss, field, ','); // ERP (unused)
 
@@ -76,8 +76,42 @@ int main(int argc, char* argv[]) {
         targets.push_back(prp);
     }
     infile.close();
-
+    
     size_t N = targets.size();
+
+        // Normalize features (mean=0, std=1) per column
+    std::array<double,6> means = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    std::array<double,6> stddevs = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+
+    // Compute means
+    for (const auto& row : features) {
+        for (int j = 0; j < 6; ++j) {
+            means[j] += row[j];
+        }
+    }
+    for (int j = 0; j < 6; ++j) {
+        means[j] /= static_cast<double>(N);
+    }
+
+    // Compute stddevs
+    for (const auto& row : features) {
+        for (int j = 0; j < 6; ++j) {
+            double diff = row[j] - means[j];
+            stddevs[j] += diff * diff;
+        }
+    }
+    for (int j = 0; j < 6; ++j) {
+        stddevs[j] = std::sqrt(stddevs[j] / static_cast<double>(N));
+        if (stddevs[j] == 0.0) stddevs[j] = 1.0; // avoid division by zero
+    }
+
+    // Apply normalization (in-place)
+    for (auto& row : features) {
+        for (int j = 0; j < 6; ++j) {
+            row[j] = (row[j] - means[j]) / stddevs[j];
+        }
+    }
+
     size_t trainN = static_cast<size_t>(train_split * N);
     size_t testN  = N - trainN;
 

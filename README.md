@@ -1,21 +1,6 @@
 ##  C++ Linear Algebra Regression Library
 ---
-Read full report here: https://www.overleaf.com/read/cdxsgxjjkyrs#0a79a2. 
----
-### Description: 
-A C++17 library implementing dense linear-algebra primitives and solvers, plus a CPU-performance regression demo using the UCI “Computer Hardware” dataset.
-## Accuracy Strengths
-
-- Excellent reproducibility via fixed seeds.
-- Comprehensive unit tests to catch any drift in solver correctness.
-- Custom Tikhonov regularization to mitigate ill-conditioning.
-
-## Accuracy Caveats
-
-- Reliance on normal-equation elimination can amplify rounding errors for nearly collinear features.
-- No built-in feature scaling or residual-based iterative refinement.
-- Hand-rolled routines must be vigilantly tested against extreme edge cases (e.g., Hilbert, Vandermonde matrices).
----
+Read full report here: https://www.overleaf.com/read/cdxsgxjjkyrs#0a79a2. Description: a C++17 library implementing dense linear-algebra primitives and solvers, plus a CPU-performance regression demo using the UCI “Computer Hardware” dataset.
 ### Output:
 ```bash
 # Run all Task A tests
@@ -65,6 +50,27 @@ Test  RMSE: 44.209718
 
   * Six-feature linear model (`PRP` vs. `MYCT`, `MMIN`, `MMAX`, `CACH`, `CHMIN`, `CHMAX`)
   * Train/test split with RMSE reporting
+
+      **Feature Normalization**
+
+        * The regression demo applies z-score normalization (mean=0, std=1) to each input feature to improve model convergence.
+        * Means and standard deviations are computed from the entire dataset.
+        * Standard deviations of zero are handled by setting them to 1 to avoid division by zero.
+        * The dataset is then split into training and testing subsets according to a user-specified ratio (e.g., 80% train, 20% test).
+
+      **Impact of Normalization**
+    
+        *Using the same train/test split with `--seed 42`, we observed:
+
+        | Metric         | Before Normalization | After Normalization |
+        |----------------|----------------------|----------------------|
+        | Train RMSE     | 70.34                | 62.96                |
+        | Test RMSE      | 44.36                | 43.51                |
+        | Coefficients (x1..x7) | -0.0317, 0.0151, ... | 13.28, 56.89, ... |
+        
+        Note: RMSE results may vary slightly depending on the platform, compiler, and floating-point behavior.  
+        Example (this run, Ubuntu 22.04, g++ 13.2.0)
+    
 
 * **Automation & Logging**
 
