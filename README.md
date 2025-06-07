@@ -4,7 +4,7 @@ Read full report here: https://www.overleaf.com/read/cdxsgxjjkyrs#0a79a2.
 ---
 ### Description: 
 A C++17 library implementing dense linear-algebra primitives and solvers, plus a CPU-performance regression demo using the UCI “Computer Hardware” dataset.
-### View optimize version here: 
+### View optimize version here: https://github.com/JockDilson/cpp-linalg-regression-1
 ## Accuracy Strengths
 
 - Excellent reproducibility via fixed seeds.
